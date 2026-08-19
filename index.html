@@ -16,75 +16,192 @@
         linear-gradient(165deg, #f7f9fc, #e8eef6 55%, #f3f6fa);
       padding:28px 16px 48px;
     }
-    .wrap { width:min(960px,100%); margin:0 auto; }
+    .wrap { width:min(980px,100%); margin:0 auto; }
     .brand { font-weight:800; letter-spacing:.02em; font-size:14px; color:var(--red); text-transform:uppercase; }
     h1 { margin:8px 0 6px; font-size:28px; font-weight:800; }
-    .sub { color:var(--muted); font-size:14px; margin:0 0 22px; }
+    h2 { margin:28px 0 10px; font-size:18px; font-weight:800; }
+    .sub { color:var(--muted); font-size:14px; margin:0 0 18px; }
+    .filters {
+      display:flex; flex-wrap:wrap; gap:10px; align-items:end;
+      margin:0 0 8px; padding:14px 16px; background:#fff; border:1px solid var(--line);
+    }
+    .filters label { display:flex; flex-direction:column; gap:4px; font-size:11px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); font-weight:700; }
+    .filters select {
+      min-width:88px; padding:8px 10px; border:1px solid var(--line); background:#f7f9fc;
+      font:inherit; font-size:14px; color:var(--navy); font-weight:600;
+    }
+    .filters .hint { margin-left:auto; color:var(--muted); font-size:13px; padding-bottom:8px; }
     table { width:100%; border-collapse:collapse; background:#fff; border:1px solid var(--line); }
     th, td { padding:12px 14px; text-align:left; border-bottom:1px solid var(--line); font-size:14px; }
     th { background:#f3f6fa; font-size:12px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); }
     tr:last-child td { border-bottom:none; }
+    tr.is-hidden { display:none; }
     a { color:var(--red); font-weight:700; text-decoration:none; }
     a:hover { text-decoration:underline; }
     code { font-size:12px; }
-    .foot { margin-top:14px; color:var(--muted); font-size:12px; }
+    .empty { display:none; margin:0; padding:14px 16px; color:var(--muted); background:#fff; border:1px solid var(--line); border-top:none; font-size:14px; }
+    .empty.show { display:block; }
+    .foot { margin-top:18px; color:var(--muted); font-size:12px; }
   </style>
 </head>
 <body>
   <div class="wrap">
     <div class="brand">Rustrans-Logistic</div>
     <h1>Анализ цен конкурентов</h1>
-    <p class="sub">Ежедневные выгрузки (xlsx) и отчёты (pdf/csv). Обновление около 10:10 МСК. Без рассылки — файлы только здесь.</p>
-    <table>
+    <p class="sub">Выберите день — в таблицах только файлы за эту дату. Обновление около 10:10 МСК.</p>
+
+    <div class="filters">
+      <label>День
+        <select id="day"><option value="01">01</option>
+<option value="02">02</option>
+<option value="03">03</option>
+<option value="04">04</option>
+<option value="05">05</option>
+<option value="06">06</option>
+<option value="07">07</option>
+<option value="08">08</option>
+<option value="09">09</option>
+<option value="10">10</option>
+<option value="11">11</option>
+<option value="12">12</option>
+<option value="13">13</option>
+<option value="14">14</option>
+<option value="15">15</option>
+<option value="16">16</option>
+<option value="17" selected>17</option>
+<option value="18">18</option>
+<option value="19">19</option>
+<option value="20">20</option>
+<option value="21">21</option>
+<option value="22">22</option>
+<option value="23">23</option>
+<option value="24">24</option>
+<option value="25">25</option>
+<option value="26">26</option>
+<option value="27">27</option>
+<option value="28">28</option>
+<option value="29">29</option>
+<option value="30">30</option>
+<option value="31">31</option></select>
+      </label>
+      <label>Месяц
+        <select id="month"><option value="01">01</option>
+<option value="02">02</option>
+<option value="03">03</option>
+<option value="04">04</option>
+<option value="05">05</option>
+<option value="06">06</option>
+<option value="07">07</option>
+<option value="08" selected>08</option>
+<option value="09">09</option>
+<option value="10">10</option>
+<option value="11">11</option>
+<option value="12">12</option></select>
+      </label>
+      <label>Год
+        <select id="year"><option value="2026" selected>2026</option></select>
+      </label>
+      <div class="hint" id="dateHint"></div>
+    </div>
+
+    <h2>Сводные отчёты</h2>
+    <p class="sub" style="margin-top:-4px">PDF с разбором и Excel-таблица сравнения.</p>
+    <table id="tbl-summary">
       <thead>
-        <tr><th>Дата</th><th>Файл</th><th>Тип</th><th>Размер</th><th></th></tr>
+        <tr><th>Дата</th><th>Что</th><th>Файл</th><th>Тип</th><th>Размер</th><th></th></tr>
       </thead>
       <tbody>
-<tr><td>2026-08-17</td><td><code>Горизонт_2026-08-17.xlsx</code></td><td>xlsx</td><td>29 КБ</td><td><a href="./files/2026-08-17/Горизонт_2026-08-17.xlsx">скачать</a></td></tr>
-<tr><td>2026-08-17</td><td><code>STparts_2026-08-17.xlsx</code></td><td>xlsx</td><td>116 КБ</td><td><a href="./files/2026-08-17/STparts_2026-08-17.xlsx">скачать</a></td></tr>
-<tr><td>2026-08-17</td><td><code>RTL_vs_competitors_price_diff_2026-08-17.pdf</code></td><td>pdf</td><td>58 КБ</td><td><a href="./files/2026-08-17/RTL_vs_competitors_price_diff_2026-08-17.pdf">скачать</a></td></tr>
-<tr><td>2026-08-17</td><td><code>RTL_vs_competitors_price_diff_2026-08-17.csv</code></td><td>csv</td><td>13 КБ</td><td><a href="./files/2026-08-17/RTL_vs_competitors_price_diff_2026-08-17.csv">скачать</a></td></tr>
-<tr><td>2026-08-17</td><td><code>PhoenixOil_2026-08-17.xlsx</code></td><td>xlsx</td><td>8 КБ</td><td><a href="./files/2026-08-17/PhoenixOil_2026-08-17.xlsx">скачать</a></td></tr>
-<tr><td>2026-08-17</td><td><code>Froza_2026-08-17.xlsx</code></td><td>xlsx</td><td>3 КБ</td><td><a href="./files/2026-08-17/Froza_2026-08-17.xlsx">скачать</a></td></tr>
-<tr><td>2026-08-17</td><td><code>Autotrade_2026-08-17.xlsx</code></td><td>xlsx</td><td>11 КБ</td><td><a href="./files/2026-08-17/Autotrade_2026-08-17.xlsx">скачать</a></td></tr>
-<tr><td>2026-08-12</td><td><code>Горизонт_2026-08-12.xlsx</code></td><td>xlsx</td><td>28 КБ</td><td><a href="./files/2026-08-12/Горизонт_2026-08-12.xlsx">скачать</a></td></tr>
-<tr><td>2026-08-12</td><td><code>STparts_2026-08-12.xlsx</code></td><td>xlsx</td><td>115 КБ</td><td><a href="./files/2026-08-12/STparts_2026-08-12.xlsx">скачать</a></td></tr>
-<tr><td>2026-08-12</td><td><code>RTL_vs_competitors_price_diff_2026-08-12.pdf</code></td><td>pdf</td><td>53 КБ</td><td><a href="./files/2026-08-12/RTL_vs_competitors_price_diff_2026-08-12.pdf">скачать</a></td></tr>
-<tr><td>2026-08-12</td><td><code>RTL_vs_competitors_price_diff_2026-08-12.csv</code></td><td>csv</td><td>13 КБ</td><td><a href="./files/2026-08-12/RTL_vs_competitors_price_diff_2026-08-12.csv">скачать</a></td></tr>
-<tr><td>2026-08-12</td><td><code>PhoenixOil_2026-08-12.xlsx</code></td><td>xlsx</td><td>8 КБ</td><td><a href="./files/2026-08-12/PhoenixOil_2026-08-12.xlsx">скачать</a></td></tr>
-<tr><td>2026-08-12</td><td><code>Froza_2026-08-12.xlsx</code></td><td>xlsx</td><td>3 КБ</td><td><a href="./files/2026-08-12/Froza_2026-08-12.xlsx">скачать</a></td></tr>
-<tr><td>2026-08-12</td><td><code>Autotrade_2026-08-12.xlsx</code></td><td>xlsx</td><td>11 КБ</td><td><a href="./files/2026-08-12/Autotrade_2026-08-12.xlsx">скачать</a></td></tr>
-<tr><td>2026-08-11</td><td><code>Горизонт_2026-08-11.xlsx</code></td><td>xlsx</td><td>28 КБ</td><td><a href="./files/2026-08-11/Горизонт_2026-08-11.xlsx">скачать</a></td></tr>
-<tr><td>2026-08-11</td><td><code>STparts_2026-08-11.xlsx</code></td><td>xlsx</td><td>115 КБ</td><td><a href="./files/2026-08-11/STparts_2026-08-11.xlsx">скачать</a></td></tr>
-<tr><td>2026-08-11</td><td><code>RTL_vs_competitors_price_diff_2026-08-11.pdf</code></td><td>pdf</td><td>52 КБ</td><td><a href="./files/2026-08-11/RTL_vs_competitors_price_diff_2026-08-11.pdf">скачать</a></td></tr>
-<tr><td>2026-08-11</td><td><code>RTL_vs_competitors_price_diff_2026-08-11.csv</code></td><td>csv</td><td>12 КБ</td><td><a href="./files/2026-08-11/RTL_vs_competitors_price_diff_2026-08-11.csv">скачать</a></td></tr>
-<tr><td>2026-08-11</td><td><code>PhoenixOil_2026-08-11.xlsx</code></td><td>xlsx</td><td>8 КБ</td><td><a href="./files/2026-08-11/PhoenixOil_2026-08-11.xlsx">скачать</a></td></tr>
-<tr><td>2026-08-11</td><td><code>Froza_2026-08-11.xlsx</code></td><td>xlsx</td><td>3 КБ</td><td><a href="./files/2026-08-11/Froza_2026-08-11.xlsx">скачать</a></td></tr>
-<tr><td>2026-08-11</td><td><code>Autotrade_2026-08-11.xlsx</code></td><td>xlsx</td><td>11 КБ</td><td><a href="./files/2026-08-11/Autotrade_2026-08-11.xlsx">скачать</a></td></tr>
-<tr><td>2026-08-10</td><td><code>Горизонт_2026-08-10.xlsx</code></td><td>xlsx</td><td>28 КБ</td><td><a href="./files/2026-08-10/Горизонт_2026-08-10.xlsx">скачать</a></td></tr>
-<tr><td>2026-08-10</td><td><code>STparts_2026-08-10.xlsx</code></td><td>xlsx</td><td>116 КБ</td><td><a href="./files/2026-08-10/STparts_2026-08-10.xlsx">скачать</a></td></tr>
-<tr><td>2026-08-10</td><td><code>RTL_vs_competitors_price_diff_2026-08-10.pdf</code></td><td>pdf</td><td>53 КБ</td><td><a href="./files/2026-08-10/RTL_vs_competitors_price_diff_2026-08-10.pdf">скачать</a></td></tr>
-<tr><td>2026-08-10</td><td><code>RTL_vs_competitors_price_diff_2026-08-10.csv</code></td><td>csv</td><td>12 КБ</td><td><a href="./files/2026-08-10/RTL_vs_competitors_price_diff_2026-08-10.csv">скачать</a></td></tr>
-<tr><td>2026-08-10</td><td><code>PhoenixOil_2026-08-10.xlsx</code></td><td>xlsx</td><td>8 КБ</td><td><a href="./files/2026-08-10/PhoenixOil_2026-08-10.xlsx">скачать</a></td></tr>
-<tr><td>2026-08-10</td><td><code>Froza_2026-08-10.xlsx</code></td><td>xlsx</td><td>3 КБ</td><td><a href="./files/2026-08-10/Froza_2026-08-10.xlsx">скачать</a></td></tr>
-<tr><td>2026-08-10</td><td><code>Autotrade_2026-08-10.xlsx</code></td><td>xlsx</td><td>11 КБ</td><td><a href="./files/2026-08-10/Autotrade_2026-08-10.xlsx">скачать</a></td></tr>
-<tr><td>2026-08-07</td><td><code>Горизонт_2026-08-07.xlsx</code></td><td>xlsx</td><td>28 КБ</td><td><a href="./files/2026-08-07/Горизонт_2026-08-07.xlsx">скачать</a></td></tr>
-<tr><td>2026-08-07</td><td><code>STparts_2026-08-07.xlsx</code></td><td>xlsx</td><td>116 КБ</td><td><a href="./files/2026-08-07/STparts_2026-08-07.xlsx">скачать</a></td></tr>
-<tr><td>2026-08-07</td><td><code>RTL_vs_competitors_price_diff_2026-08-07.pdf</code></td><td>pdf</td><td>52 КБ</td><td><a href="./files/2026-08-07/RTL_vs_competitors_price_diff_2026-08-07.pdf">скачать</a></td></tr>
-<tr><td>2026-08-07</td><td><code>RTL_vs_competitors_price_diff_2026-08-07.csv</code></td><td>csv</td><td>12 КБ</td><td><a href="./files/2026-08-07/RTL_vs_competitors_price_diff_2026-08-07.csv">скачать</a></td></tr>
-<tr><td>2026-08-07</td><td><code>PhoenixOil_2026-08-07.xlsx</code></td><td>xlsx</td><td>8 КБ</td><td><a href="./files/2026-08-07/PhoenixOil_2026-08-07.xlsx">скачать</a></td></tr>
-<tr><td>2026-08-07</td><td><code>Froza_2026-08-07.xlsx</code></td><td>xlsx</td><td>6 КБ</td><td><a href="./files/2026-08-07/Froza_2026-08-07.xlsx">скачать</a></td></tr>
-<tr><td>2026-08-07</td><td><code>Autotrade_2026-08-07.xlsx</code></td><td>xlsx</td><td>11 КБ</td><td><a href="./files/2026-08-07/Autotrade_2026-08-07.xlsx">скачать</a></td></tr>
-<tr><td>2026-08-06</td><td><code>Горизонт_2026-08-06.xlsx</code></td><td>xlsx</td><td>28 КБ</td><td><a href="./files/2026-08-06/Горизонт_2026-08-06.xlsx">скачать</a></td></tr>
-<tr><td>2026-08-06</td><td><code>STparts_2026-08-06.xlsx</code></td><td>xlsx</td><td>117 КБ</td><td><a href="./files/2026-08-06/STparts_2026-08-06.xlsx">скачать</a></td></tr>
-<tr><td>2026-08-06</td><td><code>RTL_vs_competitors_price_diff_2026-08-06.pdf</code></td><td>pdf</td><td>69 КБ</td><td><a href="./files/2026-08-06/RTL_vs_competitors_price_diff_2026-08-06.pdf">скачать</a></td></tr>
-<tr><td>2026-08-06</td><td><code>RTL_vs_competitors_price_diff_2026-08-06.csv</code></td><td>csv</td><td>38 КБ</td><td><a href="./files/2026-08-06/RTL_vs_competitors_price_diff_2026-08-06.csv">скачать</a></td></tr>
-<tr><td>2026-08-06</td><td><code>PhoenixOil_2026-08-06.xlsx</code></td><td>xlsx</td><td>8 КБ</td><td><a href="./files/2026-08-06/PhoenixOil_2026-08-06.xlsx">скачать</a></td></tr>
-<tr><td>2026-08-06</td><td><code>Froza_2026-08-06.xlsx</code></td><td>xlsx</td><td>6 КБ</td><td><a href="./files/2026-08-06/Froza_2026-08-06.xlsx">скачать</a></td></tr>
-<tr><td>2026-08-06</td><td><code>Autotrade_2026-08-06.xlsx</code></td><td>xlsx</td><td>2 КБ</td><td><a href="./files/2026-08-06/Autotrade_2026-08-06.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-17" data-group="summary"><td>2026-08-17</td><td>Сводный отчёт PDF</td><td><code>RTL_vs_competitors_price_diff_2026-08-17.pdf</code></td><td>pdf</td><td>58 КБ</td><td><a href="./files/2026-08-17/RTL_vs_competitors_price_diff_2026-08-17.pdf">скачать</a></td></tr>
+<tr data-date="2026-08-17" data-group="summary"><td>2026-08-17</td><td>Сводный отчёт</td><td><code>RTL_vs_competitors_price_diff_2026-08-17.xlsx</code></td><td>xlsx</td><td>9 КБ</td><td><a href="./files/2026-08-17/RTL_vs_competitors_price_diff_2026-08-17.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-12" data-group="summary"><td>2026-08-12</td><td>Сводный отчёт PDF</td><td><code>RTL_vs_competitors_price_diff_2026-08-12.pdf</code></td><td>pdf</td><td>53 КБ</td><td><a href="./files/2026-08-12/RTL_vs_competitors_price_diff_2026-08-12.pdf">скачать</a></td></tr>
+<tr data-date="2026-08-12" data-group="summary"><td>2026-08-12</td><td>Сводный отчёт</td><td><code>RTL_vs_competitors_price_diff_2026-08-12.xlsx</code></td><td>xlsx</td><td>9 КБ</td><td><a href="./files/2026-08-12/RTL_vs_competitors_price_diff_2026-08-12.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-11" data-group="summary"><td>2026-08-11</td><td>Сводный отчёт PDF</td><td><code>RTL_vs_competitors_price_diff_2026-08-11.pdf</code></td><td>pdf</td><td>52 КБ</td><td><a href="./files/2026-08-11/RTL_vs_competitors_price_diff_2026-08-11.pdf">скачать</a></td></tr>
+<tr data-date="2026-08-11" data-group="summary"><td>2026-08-11</td><td>Сводный отчёт</td><td><code>RTL_vs_competitors_price_diff_2026-08-11.xlsx</code></td><td>xlsx</td><td>8 КБ</td><td><a href="./files/2026-08-11/RTL_vs_competitors_price_diff_2026-08-11.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-10" data-group="summary"><td>2026-08-10</td><td>Сводный отчёт PDF</td><td><code>RTL_vs_competitors_price_diff_2026-08-10.pdf</code></td><td>pdf</td><td>53 КБ</td><td><a href="./files/2026-08-10/RTL_vs_competitors_price_diff_2026-08-10.pdf">скачать</a></td></tr>
+<tr data-date="2026-08-10" data-group="summary"><td>2026-08-10</td><td>Сводный отчёт</td><td><code>RTL_vs_competitors_price_diff_2026-08-10.xlsx</code></td><td>xlsx</td><td>8 КБ</td><td><a href="./files/2026-08-10/RTL_vs_competitors_price_diff_2026-08-10.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-07" data-group="summary"><td>2026-08-07</td><td>Сводный отчёт PDF</td><td><code>RTL_vs_competitors_price_diff_2026-08-07.pdf</code></td><td>pdf</td><td>52 КБ</td><td><a href="./files/2026-08-07/RTL_vs_competitors_price_diff_2026-08-07.pdf">скачать</a></td></tr>
+<tr data-date="2026-08-07" data-group="summary"><td>2026-08-07</td><td>Сводный отчёт</td><td><code>RTL_vs_competitors_price_diff_2026-08-07.xlsx</code></td><td>xlsx</td><td>8 КБ</td><td><a href="./files/2026-08-07/RTL_vs_competitors_price_diff_2026-08-07.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-06" data-group="summary"><td>2026-08-06</td><td>Сводный отчёт PDF</td><td><code>RTL_vs_competitors_price_diff_2026-08-06.pdf</code></td><td>pdf</td><td>69 КБ</td><td><a href="./files/2026-08-06/RTL_vs_competitors_price_diff_2026-08-06.pdf">скачать</a></td></tr>
+<tr data-date="2026-08-06" data-group="summary"><td>2026-08-06</td><td>Сводный отчёт</td><td><code>RTL_vs_competitors_price_diff_2026-08-06.xlsx</code></td><td>xlsx</td><td>19 КБ</td><td><a href="./files/2026-08-06/RTL_vs_competitors_price_diff_2026-08-06.xlsx">скачать</a></td></tr>
       </tbody>
     </table>
-    <p class="foot">Обновлено: 2026-08-20 01:43</p>
+    <p class="empty" id="empty-summary">Нет сводных файлов за выбранный день.</p>
+
+    <h2>Выгрузки по конкурентам</h2>
+    <p class="sub" style="margin-top:-4px">Детальные xlsx по каждому сайту.</p>
+    <table id="tbl-competitor">
+      <thead>
+        <tr><th>Дата</th><th>Конкурент</th><th>Файл</th><th>Тип</th><th>Размер</th><th></th></tr>
+      </thead>
+      <tbody>
+<tr data-date="2026-08-17" data-group="competitor"><td>2026-08-17</td><td>Горизонт</td><td><code>Горизонт_2026-08-17.xlsx</code></td><td>xlsx</td><td>29 КБ</td><td><a href="./files/2026-08-17/Горизонт_2026-08-17.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-17" data-group="competitor"><td>2026-08-17</td><td>STparts</td><td><code>STparts_2026-08-17.xlsx</code></td><td>xlsx</td><td>116 КБ</td><td><a href="./files/2026-08-17/STparts_2026-08-17.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-17" data-group="competitor"><td>2026-08-17</td><td>PhoenixOil</td><td><code>PhoenixOil_2026-08-17.xlsx</code></td><td>xlsx</td><td>8 КБ</td><td><a href="./files/2026-08-17/PhoenixOil_2026-08-17.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-17" data-group="competitor"><td>2026-08-17</td><td>Froza</td><td><code>Froza_2026-08-17.xlsx</code></td><td>xlsx</td><td>3 КБ</td><td><a href="./files/2026-08-17/Froza_2026-08-17.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-17" data-group="competitor"><td>2026-08-17</td><td>Autotrade</td><td><code>Autotrade_2026-08-17.xlsx</code></td><td>xlsx</td><td>11 КБ</td><td><a href="./files/2026-08-17/Autotrade_2026-08-17.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-12" data-group="competitor"><td>2026-08-12</td><td>Горизонт</td><td><code>Горизонт_2026-08-12.xlsx</code></td><td>xlsx</td><td>28 КБ</td><td><a href="./files/2026-08-12/Горизонт_2026-08-12.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-12" data-group="competitor"><td>2026-08-12</td><td>STparts</td><td><code>STparts_2026-08-12.xlsx</code></td><td>xlsx</td><td>115 КБ</td><td><a href="./files/2026-08-12/STparts_2026-08-12.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-12" data-group="competitor"><td>2026-08-12</td><td>PhoenixOil</td><td><code>PhoenixOil_2026-08-12.xlsx</code></td><td>xlsx</td><td>8 КБ</td><td><a href="./files/2026-08-12/PhoenixOil_2026-08-12.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-12" data-group="competitor"><td>2026-08-12</td><td>Froza</td><td><code>Froza_2026-08-12.xlsx</code></td><td>xlsx</td><td>3 КБ</td><td><a href="./files/2026-08-12/Froza_2026-08-12.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-12" data-group="competitor"><td>2026-08-12</td><td>Autotrade</td><td><code>Autotrade_2026-08-12.xlsx</code></td><td>xlsx</td><td>11 КБ</td><td><a href="./files/2026-08-12/Autotrade_2026-08-12.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-11" data-group="competitor"><td>2026-08-11</td><td>Горизонт</td><td><code>Горизонт_2026-08-11.xlsx</code></td><td>xlsx</td><td>28 КБ</td><td><a href="./files/2026-08-11/Горизонт_2026-08-11.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-11" data-group="competitor"><td>2026-08-11</td><td>STparts</td><td><code>STparts_2026-08-11.xlsx</code></td><td>xlsx</td><td>115 КБ</td><td><a href="./files/2026-08-11/STparts_2026-08-11.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-11" data-group="competitor"><td>2026-08-11</td><td>PhoenixOil</td><td><code>PhoenixOil_2026-08-11.xlsx</code></td><td>xlsx</td><td>8 КБ</td><td><a href="./files/2026-08-11/PhoenixOil_2026-08-11.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-11" data-group="competitor"><td>2026-08-11</td><td>Froza</td><td><code>Froza_2026-08-11.xlsx</code></td><td>xlsx</td><td>3 КБ</td><td><a href="./files/2026-08-11/Froza_2026-08-11.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-11" data-group="competitor"><td>2026-08-11</td><td>Autotrade</td><td><code>Autotrade_2026-08-11.xlsx</code></td><td>xlsx</td><td>11 КБ</td><td><a href="./files/2026-08-11/Autotrade_2026-08-11.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-10" data-group="competitor"><td>2026-08-10</td><td>Горизонт</td><td><code>Горизонт_2026-08-10.xlsx</code></td><td>xlsx</td><td>28 КБ</td><td><a href="./files/2026-08-10/Горизонт_2026-08-10.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-10" data-group="competitor"><td>2026-08-10</td><td>STparts</td><td><code>STparts_2026-08-10.xlsx</code></td><td>xlsx</td><td>116 КБ</td><td><a href="./files/2026-08-10/STparts_2026-08-10.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-10" data-group="competitor"><td>2026-08-10</td><td>PhoenixOil</td><td><code>PhoenixOil_2026-08-10.xlsx</code></td><td>xlsx</td><td>8 КБ</td><td><a href="./files/2026-08-10/PhoenixOil_2026-08-10.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-10" data-group="competitor"><td>2026-08-10</td><td>Froza</td><td><code>Froza_2026-08-10.xlsx</code></td><td>xlsx</td><td>3 КБ</td><td><a href="./files/2026-08-10/Froza_2026-08-10.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-10" data-group="competitor"><td>2026-08-10</td><td>Autotrade</td><td><code>Autotrade_2026-08-10.xlsx</code></td><td>xlsx</td><td>11 КБ</td><td><a href="./files/2026-08-10/Autotrade_2026-08-10.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-07" data-group="competitor"><td>2026-08-07</td><td>Горизонт</td><td><code>Горизонт_2026-08-07.xlsx</code></td><td>xlsx</td><td>28 КБ</td><td><a href="./files/2026-08-07/Горизонт_2026-08-07.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-07" data-group="competitor"><td>2026-08-07</td><td>STparts</td><td><code>STparts_2026-08-07.xlsx</code></td><td>xlsx</td><td>116 КБ</td><td><a href="./files/2026-08-07/STparts_2026-08-07.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-07" data-group="competitor"><td>2026-08-07</td><td>PhoenixOil</td><td><code>PhoenixOil_2026-08-07.xlsx</code></td><td>xlsx</td><td>8 КБ</td><td><a href="./files/2026-08-07/PhoenixOil_2026-08-07.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-07" data-group="competitor"><td>2026-08-07</td><td>Froza</td><td><code>Froza_2026-08-07.xlsx</code></td><td>xlsx</td><td>6 КБ</td><td><a href="./files/2026-08-07/Froza_2026-08-07.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-07" data-group="competitor"><td>2026-08-07</td><td>Autotrade</td><td><code>Autotrade_2026-08-07.xlsx</code></td><td>xlsx</td><td>11 КБ</td><td><a href="./files/2026-08-07/Autotrade_2026-08-07.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-06" data-group="competitor"><td>2026-08-06</td><td>Горизонт</td><td><code>Горизонт_2026-08-06.xlsx</code></td><td>xlsx</td><td>28 КБ</td><td><a href="./files/2026-08-06/Горизонт_2026-08-06.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-06" data-group="competitor"><td>2026-08-06</td><td>STparts</td><td><code>STparts_2026-08-06.xlsx</code></td><td>xlsx</td><td>117 КБ</td><td><a href="./files/2026-08-06/STparts_2026-08-06.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-06" data-group="competitor"><td>2026-08-06</td><td>PhoenixOil</td><td><code>PhoenixOil_2026-08-06.xlsx</code></td><td>xlsx</td><td>8 КБ</td><td><a href="./files/2026-08-06/PhoenixOil_2026-08-06.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-06" data-group="competitor"><td>2026-08-06</td><td>Froza</td><td><code>Froza_2026-08-06.xlsx</code></td><td>xlsx</td><td>6 КБ</td><td><a href="./files/2026-08-06/Froza_2026-08-06.xlsx">скачать</a></td></tr>
+<tr data-date="2026-08-06" data-group="competitor"><td>2026-08-06</td><td>Autotrade</td><td><code>Autotrade_2026-08-06.xlsx</code></td><td>xlsx</td><td>2 КБ</td><td><a href="./files/2026-08-06/Autotrade_2026-08-06.xlsx">скачать</a></td></tr>
+      </tbody>
+    </table>
+    <p class="empty" id="empty-competitor">Нет выгрузок конкурентов за выбранный день.</p>
+
+    <p class="foot">Обновлено: 2026-08-20 01:55</p>
   </div>
+  <script>
+    const AVAILABLE = new Set(["2026-08-17", "2026-08-12", "2026-08-11", "2026-08-10", "2026-08-07", "2026-08-06"]);
+    const dayEl = document.getElementById('day');
+    const monthEl = document.getElementById('month');
+    const yearEl = document.getElementById('year');
+    const hint = document.getElementById('dateHint');
+
+    function selectedDate() {
+      return yearEl.value + '-' + monthEl.value + '-' + dayEl.value;
+    }
+
+    function applyFilter() {
+      const d = selectedDate();
+      const ok = AVAILABLE.has(d);
+      hint.textContent = ok ? ('Показано: ' + d) : ('За ' + d + ' файлов нет');
+      ['summary', 'competitor'].forEach(function(group) {
+        const table = document.getElementById('tbl-' + group);
+        const empty = document.getElementById('empty-' + group);
+        let visible = 0;
+        table.querySelectorAll('tbody tr').forEach(function(tr) {
+          const show = tr.getAttribute('data-date') === d;
+          tr.classList.toggle('is-hidden', !show);
+          if (show) visible += 1;
+        });
+        empty.classList.toggle('show', visible === 0);
+      });
+    }
+
+    [dayEl, monthEl, yearEl].forEach(function(el) {
+      el.addEventListener('change', applyFilter);
+    });
+    applyFilter();
+  </script>
 </body>
 </html>
